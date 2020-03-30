@@ -53,11 +53,22 @@
       transform: translateY(-50%)
   &-list
     background: #fff
+    overflow-y: auto
+    height: calc(100vh - 128px)
+    &::-webkit-scrollbar-track
+      background-color: #F5F5F5
+    &::-webkit-scrollbar
+      width: 6px
+      background-color: #F5F5F5
+    &::-webkit-scrollbar-thumb
+      background-color: #ccc
+      border-radius: 30px
+
   &-card
     text-align: left
     font-size: 14px
     color: #666666
-    // border-bottom: 1px #ccc solid
+    border-bottom: 2px #ccc double
     padding: 8px 12px
     >div
       padding: 6px 0px
@@ -66,7 +77,6 @@
       font-weight: bold
       color: #000
     .flex
-      // font-weight: bold
       color: #fff
       display: flex
       justify-content: space-around
@@ -74,7 +84,7 @@
         display: flex
         padding: 5px 12px
         border-radius: 20px
-        width: 125px
+        width: 120px
         height: 30px
         align-items: center
         justify-content: space-between
@@ -101,3 +111,12 @@
       transition: all 0.5s
       color: #fff
       font-size: 14px
+
+.leaflet-popup-content
+  .sidebar-card
+    padding: 0
+    border-bottom: 0px
+    .flex
+      >div
+        width: 100px
+

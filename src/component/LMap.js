@@ -25,7 +25,7 @@ class LMap extends React.Component {
     this.state = {
       lat: 25.0481495,
       lng: 121.5138807,
-      zoom: 18,
+      zoom: 15,
       nears: [],
       selfIcon: new L.Icon({
         iconUrl:
@@ -43,39 +43,41 @@ class LMap extends React.Component {
   render() {
     const position = [this.state.lat, this.state.lng]
     return (
-      <Map center={position} zoom={this.state.zoom} className="full-map">
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
-        />
-        <Marker icon={this.state.selfIcon} position={position}>
-          <Popup>您的位置</Popup>
-        </Marker>
-        {this.state.nears.map((item, index) => {
-          return (
-            <Marker key={index} position={item.geometry.coordinates}>
-              <Popup>
-                <div className="sidebar-card">
-                  <div className="title">惠生大藥局</div>
-                  <div className="address">雲林縣斗南鎮中天里文元街50號</div>
-                  <div className="phone">05-5972478</div>
-                  <div className="flex">
-                    <div className="adult">
-                      <div>成人口罩</div>
-                      <div>577</div>
-                    </div>
-                    <div className="child">
-                      <div>兒童口罩</div>
-                      <div>2501</div>
+      <div>
+        <Map center={position} zoom={this.state.zoom} className="full-map" id="mask-map">
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+          />
+          <Marker icon={this.state.selfIcon} position={position}>
+            <Popup>您的位置</Popup>
+          </Marker>
+          {this.state.nears.map((item, index) => {
+            return (
+              <Marker key={index} position={item.geometry.coordinates}>
+                <Popup>
+                  <div className="sidebar-card">
+                    <div className="title">{item.properties.name}</div>
+                    <div className="address">{item.properties.address}</div>
+                    <div className="phone">{item.properties.phone}</div>
+                    <div className="flex">
+                      <div className="adult">
+                        <div>成人口罩</div>
+                        <div>{item.properties.mask_adult}</div>
+                      </div>
+                      <div className="child">
+                        <div>兒童口罩</div>
+                        <div>{item.properties.mask_child}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Popup>
-            </Marker>
-          )
-        })}
-        <SideBar />
-      </Map>
+                </Popup>
+              </Marker>
+            )
+          })}
+        </Map>
+        <SideBar nears={this.state.nears} />
+      </div>
     )
   }
 
@@ -107,7 +109,6 @@ class LMap extends React.Component {
   }
 
   getDistance(origin, destination) {
-    // return distance in meters
     var lon1 = this.toRadian(origin[1]),
       lat1 = this.toRadian(origin[0]),
       lon2 = this.toRadian(destination[1]),
